@@ -312,12 +312,12 @@ zipmap(['a', 'b'], [1,2]); //, {a:1, b:2}
 ```js path=dist/core.js
 var count = (coll) => coll.length;
 ```
+
 usage: 
 ```js path=dist/test.core.js
-test('count coll', ()=>{
-  assert.equal(count([1,2]),2)
-})
+count([1,2]) // 2
 ```
+
 #### conj
 `(conj)(conj coll)(conj coll x)(conj coll x & xs)`
 
@@ -331,17 +331,9 @@ var conj = (...args) =>{
 ```
 usage: 
 ```js path=dist/test.core.js
-test('test conj single', ()=>{
-  assert.deepEqual(conj(['a'], 'a'),['a','a'])
-});
-
-test('test conj array', ()=>{
-  assert.deepEqual(conj(['a', 'b'], ['c']),['a', 'b', ['c']])
-})
-
-test('test multiple conj', ()=>{
-  assert.deepEqual(conj(['a'], 'b', 'c'),['a', 'b', 'c'])
-});
+conj(['a'], 'a') // ['a','a']
+conj(['a', 'b'], ['c']) // ['a', 'b', ['c']]
+conj(['a'], 'b', 'c') // ['a', 'b', 'c']
 
 ```
 
@@ -355,14 +347,10 @@ var cons = (...args) =>{
     : [item].concat(...seq)
 }
 ```
+
 usage: 
 ```js path=dist/test.core.js
-test('cons array', ()=>{
-  assert.deepEqual(
-    cons(0,[1,2,3]),
-    [0,1,2,3]
-  )
-})
+cons(0,[1,2,3]) //[0,1,2,3]
 ```
 
 #### first
@@ -370,11 +358,11 @@ test('cons array', ()=>{
 ```js path=dist/core.js
 var first = (seq) => seq[0];
 ```
+
 usage: 
 ```js path=dist/test.core.js
-test('test first array', ()=>{
-  assert.equal(first([1,2]),1)
-})
+first([1,2]) //1
+
 ```
 
 
@@ -383,11 +371,10 @@ test('test first array', ()=>{
 ```js path=dist/core.js
 var ffirst = (seq) => first(seq[0])
 ```
+
 usage: 
 ```js path=dist/test.core.js
-test('first of first of arrays', ()=>{
-  assert.deepEqual(ffirst([[0, 1], [1,2]]),0)
-});
+ffirst([[0, 1], [1,2]]) //0
 ```
 
 #### nth
@@ -398,18 +385,17 @@ var nth = (...args) => {
   if(args.length === 1) return (nn) => nth(seq, nn);
   return seq[n];
 }
-
 ```
+
 usage: 
 ```js path=dist/test.core.js
-test('nth index of collections', ()=>{
-  assert.equal(nth([1,2,3,4], 2), 3)  
-})
+nth([1,2,3,4], 2) //3
 
 ```
 
 #### seq 
 `(seq coll)` sequence in this is converting objects & strings
+aka: `Object.entries` in javascript to convert if object
 
 ```js path=dist/core.js
 var seq = (arg) =>{
@@ -425,14 +411,11 @@ var seq = (arg) =>{
   return arg;
 }
 ```
+
 usage:
 ```js path=dist/test.core.js
-test('should test the conversion of object', ()=>{
-  assert.deepEqual(seq({a:1, b:2}), [["a", 1], ["b", 2]]);
-});
-test('should convert string into sequences', ()=>{
-  assert.deepEqual(seq('aziz'), ['a', 'z','i', 'z'])
-})
+seq({a:1, b:2}) // [["a", 1], ["b", 2]]
+seq('aziz') // ['a', 'z','i', 'z']
 ```
 
 #### peek
@@ -440,9 +423,10 @@ test('should convert string into sequences', ()=>{
 ```js path=dist/core.js
 var peek = (stack) => stack[stack.length - 1];
 ```
+
 usage: 
 ```js path=dist/test.core.js
-assert.equal(peek([1,2,3,4]), 4); // 4
+peek([1,2,3,4])  // 4
 ```
 
 #### rest
@@ -450,9 +434,10 @@ assert.equal(peek([1,2,3,4]), 4); // 4
 ```js path=dist/core.js
 var rest = (seq) => seq.slice(1);
 ```
+
 usage: 
 ```js path=dist/test.core.js
-assert.deepEqual(rest([1,2,3]), [2,3])
+rest([1,2,3]) //[2,3]
 ```
 
 #### pop
@@ -460,9 +445,10 @@ assert.deepEqual(rest([1,2,3]), [2,3])
 ```js path=dist/core.js
 var pop = (stack) => stack.slice(0, -1);
 ```
+
 usage: 
 ```js path=dist/test.core.js
-assert.deepEqual(pop([1,2,3]), [1,2])
+pop([1,2,3]) //[1,2]
 ```
 
 #### disj
@@ -478,9 +464,10 @@ var disj = (...args) =>{
   }
 }
 ```
+
 usage: 
 ```js path=dist/test.core.js
-assert.deepEqual(disj([1,2, 3],1), [2,3])
+disj([1,2, 3],1) //  [2,3]
 ```
 
 #### takeNth
@@ -494,11 +481,13 @@ var takeNth = (...args) => {
   return arr.filter((_, i) => i % n === 0);
 }
 ```
+
 usage: 
 ```js path=dist/test.core.js
-assert.deepEqual(takeNth(2,[1,2,3,4,5,6,7,8]), [1,3,5,7])
-assert.deepEqual(takeNth(3, [1,2,3,4,5,6,7,8]),[1,4,7])
+takeNth(2,[1,2,3,4,5,6,7,8]) // [1,3,5,7]
+takeNth(3, [1,2,3,4,5,6,7,8]) //[1,4,7]
 ```
+
 #### take
 `(take n)(take n coll)`
 ```js path=dist/core.js
@@ -510,18 +499,21 @@ var take = (...args) =>{
   return arr.slice(0, n);
 }
 ```
+
 usage: 
 ```js path=dist/test.core.js
-assert.deepEqual(take(2, [1,2,3,4,5,6,7,8]), [1,2])
+take(2, [1,2,3,4,5,6,7,8]) // [1,2]
 ```
+
 #### second
 `(second x)`
 ```js path=dist/core.js
 var second = ([_, x]) => x;
 ```
+
 usage: 
 ```js path=dist/test.core.js
-assert.deepEqual(second([1,2]), 2)
+second([1,2]) // 2
 ```
 
 #### last
@@ -529,9 +521,10 @@ assert.deepEqual(second([1,2]), 2)
 ```js path=dist/core.js
 var last = (arr) => arr[arr.length - 1];
 ```
+
 usage: 
 ```js path=dist/test.core.js
-assert.deepEqual(last([1,2,3,4,5]), 5);
+last([1,2,3,4,5]) // 5
 ```
 
 #### next
@@ -539,20 +532,21 @@ assert.deepEqual(last([1,2,3,4,5]), 5);
 ```js path=dist/core.js
 var next = ([_, ...rest]) => { return rest; }
 ```
+
 usage: 
 ```js path=dist/test.core.js
-deepEqual(next([1,2,3,4]), [2,3,4]);
+next([1,2,3,4]) // [2,3,4]
 ```
 
 #### nfirst
 `(nfirst x)`
 ```js path=dist/core.js
 var nfirst = (arr) =>  next(first(arr));
-
 ```
+
 usage: 
 ```js path=dist/test.core.js
-deepEqual(nfirst([[1,2,3], [4,6,7]]), [2,3])
+nfirst([[1,2,3], [4,6,7]]) // [2,3]
 ```
 
 #### nnext
@@ -560,18 +554,21 @@ deepEqual(nfirst([[1,2,3], [4,6,7]]), [2,3])
 ```js path=dist/core.js
 var nnext = (arr) => next(next(arr));
 ```
+
 usage: 
 ```js path=dist/test.core.js
-deepEqual(nnext([1,2,3,4]), [3,4])
+nnext([1,2,3,4]) // [3,4]
 ```
+
 #### fnext
 `(fnext x)`
 ```js path=dist/core.js
 var fnext = (arr) => first(next(arr));
 ```
+
 usage: 
 ```js path=dist/test.core.js
-deepEqual(fnext([[1,2,3], [4,5,6]]), [4,5,6]);
+fnext([[1,2,3], [4,5,6]]) // [4,5,6];
 ```
 
 #### takeLast
@@ -583,10 +580,11 @@ var takeLast= (...args)=>{
   return arr.slice(-n);  
 }
 ```
+
 usage: 
 ```js path=dist/test.core.js
-deepEqual(takeLast(2, [1,2,3,4,5,6,7]), [6,7])
-deepEqual(takeLast(3)([1,2,3,4,5,6]), [4,5,6])
+takeLast(2, [1,2,3,4,5,6,7]) // [6,7]
+takeLast(3)([1,2,3,4,5,6]) // [4,5,6]
 ```
 
 #### takeWhile
@@ -601,9 +599,10 @@ var takeWhile = (...args) =>{
   return index === -1 ? arr : arr.slice(0, index)
 }
 ```
+
 usage: 
 ```js path=dist/test.core.js
-deepEqual(takeWhile((n)=> n < 5, [1,2,3,4,5,6,7,8]), [1,2,3,4])
+takeWhile((n)=> n < 5, [1,2,3,4,5,6,7,8]); // [1,2,3,4]
 ```
 
 #### nthrest
@@ -617,9 +616,10 @@ var nthrest = (...args) =>{
   return arr.filter((_, i) => i >= n)
 }
 ```
+
 usage: 
 ```js path=dist/test.core.js
-deepEqual(nthrest(2, [1,2,3,4,5,6]), [3,4,5,6])
+nthrest(2, [1,2,3,4,5,6]) // [3,4,5,6]
 ```
 
 
@@ -634,21 +634,23 @@ var drop = (...args) => {
   return arr.slice(n);
 }
 ```
+
 usage: 
 ```js path=dist/test.core.js
-deepEqual(drop(2, [1,2,3,4,5]), [3,4,5])
+drop(2, [1,2,3,4,5]) // [3,4,5]
 ```
-
 
 #### dropLast
 `(drop-last coll)(drop-last n coll)`
 ```js path=dist/core.js
 var dropLast = (arr) => { return arr.slice(0, -1); }
 ```
+
 usage: 
 ```js path=dist/test.core.js
-deepEqual(dropLast([1,2,3,4]), [1,2,3]);
+dropLast([1,2,3,4]) [1,2,3]
 ```
+
 #### dropWhile (TODO)
 
 #### splitAt
@@ -663,10 +665,12 @@ var splitAt = (...args) =>{
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 splitAt(2, [1,2,3,4,5,6]) //[ [ 1, 2 ], [ 3, 4, 5, 6 ] ]
 ```
+
 #### splitWith (TODO)
 `(split-with pred coll)`
 
@@ -683,9 +687,10 @@ var shuffle = (coll) => {
 };
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
-shuffle([1,2,3,4,5,6,7,7,8]);
+shuffle([1,2,3,4,5,6,7,7,8]); // rnd
 ```
 
 
@@ -698,9 +703,10 @@ var randNth = (coll) => {
 };
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
-randNth([1,2,3,4,5,6,7])
+randNth([1,2,3,4,5,6,7]); // rnd
 ```
 
 #### vec
@@ -722,17 +728,17 @@ var vec = (coll) =>{
   return Object.values(coll);
 }
 ```
+
 usage: 
 ```js path=dist/test.core.js
-vec({a: 'b'})
-vec('asdff')
-vec([1,2,3,4,5])
+vec({a: 'b'}); // ['b']
+vec('asdff');  // ['a', 's', 'd', 'f','f']
+vec([1,2,3,4,5]); //[1,2,3,4,5]
 ```
 
 #### subvec
 `(subvec v start)(subvec v start end)`
 ```js path=dist/core.js
-
 var subvec = (coll, start, end)=>{
   if (!end) {
     end = coll.length;
@@ -742,8 +748,8 @@ var subvec = (coll, start, end)=>{
   }
   return coll.slice(start, end);
 }
-
 ```
+
 usage: 
 ```js path=dist/test.core.js
 subvec([1,2,3])
@@ -766,13 +772,14 @@ var repeat = (...args) => {
 };
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 repeat(20)(2)
 ```
 
 #### range
-(range)(range end)(range start end)(range start end step)
+`(range)(range end)(range start end)(range start end step)`
 ```js path=dist/core.js
 var range = (...args) => {
   let [start, end, step=1] = args
@@ -809,6 +816,7 @@ var keep = (...args) => {
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 keep(n=>{
@@ -859,6 +867,7 @@ var find = (...args) => {
 };
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 
@@ -879,13 +888,14 @@ var map = (...args) =>{
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 map(n=> n*2, [12,13,14,15,16]);
 ```
 
 #### filter
-(filter pred)(filter pred coll)
+`(filter pred)(filter pred coll)`
 ```js path=dist/core.js
 
 var filter = (...args) =>{
@@ -897,6 +907,7 @@ var filter = (...args) =>{
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 filter(n=> n > 2)([1,2,3,4,5,6])
@@ -912,6 +923,7 @@ var remove = (...args) =>{
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 var isEven = n => n % 2 === 0;
@@ -934,6 +946,7 @@ var every = (...args) =>{
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 every(n => n > 0, [1,2,3,4,5])
@@ -956,6 +969,7 @@ var reduce = (...args) => {
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 reduce((acc,v) => acc + v, 0, [1,23,4,5,6,77])
@@ -990,6 +1004,7 @@ var mapcat=(...args)=>{
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 mapcat(x => [x, x * 2], [1,2,3,4])
@@ -1006,8 +1021,8 @@ var mapIndexed = (...args) =>{
     return arr.map((val, idx) => fn(val, idx));
   }
 }
-
 ```
+
 usage: 
 ```js path=dist/test.core.js
 mapIndexed((n, i) => [n, i], [1,2,3,4,5])
@@ -1026,6 +1041,7 @@ var flatten =(...args) => {
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 flatten([1,2,[3,4],[[1,2,3,4]]])
@@ -1039,6 +1055,7 @@ var distinct = (arr) =>{
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 distinct([1,2,1,2,4,5,6,6,7,6,8])
@@ -1056,11 +1073,13 @@ var interleave = (...arrays) =>{
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 interleave([1,2,3], ["a", "b","c"]) // []
 zipmap([1,2,3], ["a", "b","c"]); // {}
 ```
+
 #### interpose
 `(interpose sep)(interpose sep coll)`
 ```js path=dist/core.js
@@ -1075,10 +1094,12 @@ var interpose = (...args) => {
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 interpose(",", ["one", "two", "three"])
 ```
+
 #### reverse
 `(reverse coll)`
 ```js path=dist/core.js
@@ -1089,10 +1110,12 @@ var reverse = (...args) =>{
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 reverse([0,1,2,3])
 ```
+
 #### sort
 `(sort coll)(sort comp coll)`
 ```js path=dist/core.js
@@ -1103,11 +1126,13 @@ var sort = (...args) => {
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 sort([1,2,3,4,5,6,5,4,1])
 
 ```
+
 #### sortBy
 `(sort-by keyfn coll)(sort-by keyfn comp coll)`
 ```js path=dist/core.js
@@ -1122,10 +1147,12 @@ var sortBy=(...args) =>{
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 sortBy((n)=> n.length, ["aaa", "bb", "c"]) 
 ```
+
 #### compare
 `(compare x y)`
 ```js path=dist/core.js
@@ -1145,6 +1172,7 @@ usage:
 ```js path=dist/test.core.js
 compare(1, 2)
 ```
+
 #### groupBy
 `(group-by f coll)`
 ```js path=dist/core.js
@@ -1165,10 +1193,12 @@ var groupBy = (...args) =>{
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 groupBy(n => n > 0)([-1,2,3,4,5, -9,-2]);
 ```
+
 #### partition (todo: fix behaviour)
 `(partition n coll)(partition n step coll)(partition n step pad coll)`
 ```js path=dist/core.js
@@ -1186,10 +1216,12 @@ var partition=(...args) =>{
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 partition(4, [1,2,3,4,5,6,7,8,9])
 ```
+
 #### partitionAll
 `(partition-all n)(partition-all n coll)(partition-all n step coll)`
 ```js path=dist/core.js
@@ -1208,10 +1240,12 @@ var partitionAll=(...args) =>{
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 partitionAll(4, [1,2,3,4,5,6,7,8,9]); 
 ```
+
 #### partitionBy
 `(partition-by f)(partition-by f coll)`
 ```js path=dist/core.js
@@ -1241,10 +1275,12 @@ var partitionBy=(...args)=>{
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 partitionBy(n => n % 2 !== 0)([1,1,1,1,2,2,2,3,3,3,4,4,5])
 ```
+
 #### frequencies
 `(frequencies coll)`
 ```js path=dist/core.js
@@ -1258,10 +1294,12 @@ var frequencies = (coll) => {
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 frequencies([1,1,1,2,2,2,3,4,5,6,7,8,8]);
 ```
+
 #### union
 `(union)(union s1)(union s1 s2)(union s1 s2 & sets)`
 ```js path=dist/core.js
@@ -1271,10 +1309,12 @@ var union = (...args) => {
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 union([1,2,3,4,5], [1,2,3,8,9]);
 ```
+
 #### difference
 `(difference s1)(difference s1 s2)(difference s1 s2 & sets)`
 ```js path=dist/core.js
@@ -1286,10 +1326,12 @@ var difference =(...args) => {
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 difference([1,2,3,4,5], [0, 3, 5,6]); // 1,2,4
 ```
+
 #### intersection
 `(intersection s1)(intersection s1 s2)(intersection s1 s2 & sets)`
 ```js path=dist/core.js
@@ -1299,6 +1341,7 @@ var intersection = (...args) =>{
   return arr1.filter((x) => arr2.includes(x));
 }
 ```
+
 usage: 
 ```js path=dist/test.core.js
 assert.equal(intersection([1,2], [2,3]), 2)
