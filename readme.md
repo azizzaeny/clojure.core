@@ -136,18 +136,18 @@ upperCase("hello world"); // "HELLO WORLD"
   ```
  - CDN Import to Browser 
    - browser
-   ```js
-   <script src="https://cdn.jsdelivr.net/npm/@zaeny/clojure.core"></script>
-   ```   
+```js
+<script src="https://cdn.jsdelivr.net/npm/@zaeny/clojure.core"></script>
+```   
    - es6 
-   ```js
-   import {updateIn} from ' https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/+esm';
-   ```
+```js
+import {updateIn} from ' https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/+esm';
+```
    - es5 export (load non default file)
-   ```js 
-   https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/dist/core.js
-   https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/dist/core.min.js
-   ```
+```js 
+https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/dist/core.js
+https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/dist/core.min.js
+```
    
 ###  Rationale
 **A Problem to solve**
@@ -176,22 +176,100 @@ Current status all supported functions
 
 module.exports = {
   // object,
-  get, getIn, assoc, dissoc, update, assocIn, updateIn, merge, mergeWith, selectKeys, renameKeys, keys, vals, zipmap,
+  get,
+  getIn,
+  assoc,
+  dissoc,
+  update,
+  assocIn,
+  updateIn,
+  merge,
+  mergeWith,
+  selectKeys,
+  renameKeys,
+  keys,
+  vals,
+  zipmap,
+
   // collections
-  count, conj, cons, first, ffirst, nth, seq, peek, rest, pop, disj, takeNth, take, second, last, next, fnext, takeLast, takeWhile, distinct, 
-  nthrest, drop, dropLast, splitAt, shuffle, randNth, vec, subvec, repeat, range, keep, keepIndexed, sort, sortBy, compare, nfirst, nnext,
-  map, filter, reduce, find,every, remove, concat, mapcat, mapIndexed, flatten, interleave, interpose, reverse, groupBy, partition, partitionAll, partitionBy,
-  frequencies, union, difference, intersection,
+  count,
+  conj,
+  cons,
+  first,
+  ffirst,
+  nth,
+  seq,
+  peek,
+  rest,
+  pop,
+  disj,
+  takeNth,
+  take,
+  second,
+  last,
+  next,
+  fnext,
+  takeLast,
+  takeWhile,
+  distinct, 
+  nthrest,
+  drop,
+  dropLast,
+  splitAt,
+  shuffle,
+  randNth,
+  vec,
+  subvec,
+  repeat,
+  range,
+  keep,
+  keepIndexed,
+  sort,
+  sortBy,
+  compare,
+  nfirst,
+  nnext,
+  map,
+  filter,
+  reduce,
+  find,
+  every,
+  remove,
+  concat,
+  mapcat,
+  mapIndexed,
+  flatten,
+  interleave,
+  interpose,
+  reverse,
+  groupBy,
+  partition,
+  partitionAll,
+  partitionBy,
+  frequencies,
+  union,
+  difference,
+  intersection,
+
   // functions
-  apply, comp, constantly, identity, fnil, memoize, everyPred, complement, partial, juxt, someFn, partialRight, partialLeft, thread, condThread,  
+  apply,
+  comp,
+  constantly,
+  identity,
+  fnil,
+  memoize, everyPred, complement, partial, juxt, someFn, partialRight, partialLeft, thread, condThread,  
+
   // checks
   isNotEmpty, isEmpty, isContains, isIncludes, isIncludes, isZero, isPos, isNeg, isEven, isOdd, isInt, isTrue, isFalse, isInstanceOf, isSome, isFn, isDeepEqual, isNil,
   isBlank, isArray, isObject, isNumber, isString, isIdentical, isEqual, isNotEqual, isGt, isGte, isLt, isLte, isDistinct, isEveryEven, isNotEveryEven, isNotAnyEven, isColl,
+
   // maths
   rand, randInt, add, subtract, multiply, divide, quot, mod, rem, incr, decr, max, min, toInt, toIntSafe,
+
   // strings
   subs, splitLines, replace, replaceFirst, join, escape, rePattern, reMatches, capitalize, lowerCase, upperCase, trim, trimNewLine, trimL, trimR, char,
   // state
+
   atom, deref, reset, swap, addWatch, removeWatch, setValidator, compareAndSet, removeValidator,
   // mutli method  
 }
