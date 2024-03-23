@@ -216,6 +216,11 @@ to Build & Compile (todo) gather all the contents code blocks, `bin/build` will 
 
 TODO: Work In Progress
 
+### TODO
+- arity function arguments of atom
+- when ifelse functional
+- sequence, doSeq
+
 ### Changes
  - [1.0.1] add atom functions `reset, swap, compareAndSet, addWatch, removeWatch, setValidator`
  - [1.0.2] fix Readme.md

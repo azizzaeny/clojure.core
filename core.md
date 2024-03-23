@@ -1364,6 +1364,7 @@ function apply(...argv) {
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 apply(get, [{a: 1}, "a"])
@@ -1384,6 +1385,7 @@ function comp(...fns) {
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 var addTwo = (x) => x + 2;
@@ -1392,7 +1394,6 @@ var doubleIt = (x) => x * 2;
 var fns = comp(addTwo, square, doubleIt);
 fns(3);
 ```
-
 
 #### constantly
 `(constantly x)`
@@ -1406,6 +1407,7 @@ function constantly(x) {
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 map(constantly(10), [1,2,3,4,5])
@@ -1421,6 +1423,7 @@ function identity(x) {
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 map(identity, [1,2,3,4,5,6])
@@ -1466,6 +1469,7 @@ function memoize(fn) {
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 var myfn = (a) => (console.log('hai'), (a+1));
