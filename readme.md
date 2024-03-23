@@ -149,9 +149,9 @@ upperCase("hello world"); // "HELLO WORLD"
    https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/dist/core.min.js
    ```
    
-###  Reason
+###  Rationale
 **A Problem to solve**
-As Software Developers there are several use cases that we cannot be picky about certain development methods, ideas, and programming paradigms that we usually used daily in our work.  
+As Software Engineer there are several use cases that we cannot be picky about certain development methods, ideas, and programming paradigms that we usually used daily in our work.  
 for example:  
 - You have recently joined an established team of developers that use object-oriented style programming and cannot use functional programming style into the team to immediately adapt and work as the way you like it.  
 - You are the third party developer that needs to fix code on the production of the current development team, but you cannot convert the whole code into clojure.   
