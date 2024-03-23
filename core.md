@@ -2,13 +2,13 @@
 clojure functional libarary in javascript
 
 ### Object
-**@zaeny/clojure.core/objects.js** plain javascript object manipulation
+**@zaeny/clojure.core/objects** plain javascript object manipulation
 
 #### get 
 `(get map key)(get map key not-found)` 
 
 ```js path=dist/core.js
-var get = (...args) => {
+function get(...args){
   let [obj, key] = args;
   if(args.length === 2){
     return obj[key];
@@ -20,24 +20,19 @@ var get = (...args) => {
 usage :
 
 ```js path=dist/test.core.js
+var obj = {a: 1};
+get(obj, 'a'); // 1
 
-test('should get object',()=>{
-  let obj = {a: 1};
-  assert.equal( get(obj, 'a'), 1);
-});
-
-test('should get object curried', ()=>{
-  let obj = {a:1};
-  let getObj = get(obj);
-  assert.equal( getObj('a'), 1)
-});
+var obj = {a:1}; 
+var getObj = get(obj);  // curried
+getObj(a); // 1
 ```
 
 #### getIn 
 `(get-in m ks)(get-in m ks not-found)`
 ```js path=dist/core.js
 
-var getIn = (...args)=>{
+function getIn(...args){
   let [coll, keys] = args;
   if(args.length === 2){
     return keys.reduce((acc, key) =>{
@@ -56,23 +51,15 @@ var getIn = (...args)=>{
 usage :
 
 ```js path=dist/test.core.js
-test('should getIn nested path', ()=>{
-  let obj = {a: {b: {c: 1}}};
-  assert.equal(getIn(obj, ['a', 'b', 'c']), 1)
-})
-
-test('should getIn with curry args', ()=>{
-  let obj = {a: {b: {c: 10}}};
-  let getObj = getIn(obj);
-  assert.equal(getObj(['a','b','c']), 10)
-});
+var obj = {a: {b: {c: 1}}};
+getIn(obj, ['a', 'b', 'c']) // 1
 
 ```
 #### assoc
 `(assoc map key val)(assoc map key val & kvs)`
 
 ```js path=dist/core.js
-var assoc = (...args) =>{
+function assoc(...args){
   let [obj, key, val] = args;
   if (args.length === 3) {
     return { ...obj, [key]: val };
@@ -87,18 +74,15 @@ var assoc = (...args) =>{
 usage:
 
 ```js path=dist/test.core.js
-
-test('should assoc key value', ()=>{
-  let obj = {a:1};
-  assert.deepEqual(assoc(obj, 'b', 20), {a:1, b:20})
-});
+var obj = {a:1};
+assoc(obj, 'b', 20); //, {a:1, b:20}
 
 ```
 #### dissoc 
 `(dissoc map)(dissoc map key)(dissoc map key & ks)`
 
 ```js path=dist/core.js
-var dissoc = (...args) =>{
+function dissoc(...args){
   let [obj, key] = args;
   if(args.length === 1){
     return (keyA) => dissoc(obj, keyA);
@@ -111,17 +95,16 @@ var dissoc = (...args) =>{
 usage:
 
 ```js path=dist/test.core.js
-test('should dissoc key', ()=>{
-  let obj = {a:1, b:2};
-  assert.deepEqual(dissoc(obj, 'a'), {b:2})
-});
+var obj = {a:1, b:2};
+dissoc(obj, 'a'); //, {b:2}
+
 ```
 
 #### update
 `(update m k f)(update m k f x)(update m k f x y)(update m k f x y z)(update m k f x y z & more)`
 
 ```js path=dist/core.js
-var update = (...args) => {
+function update(...args){
   let [coll, key, updateFn] = args;
   if (args.length === 2) {
     return (updateFn) => update(coll, key, updateFn);
@@ -140,18 +123,14 @@ var update = (...args) => {
 usage:
 
 ```js path=dist/test.core.js
-test('should udpate object given key and functions ', ()=>{
-  let obj = {a: 1, b: 2};
-  let inc = (val) => val + 1;
-  let res = update(obj, "b", inc);
-  assert.deepEqual(res, {a: 1, b: 3});
-});
+var obj = {a: 1, b: 2};
+var res = update(obj, "b", (val) => val + 1); //{a: 1, b: 3}
 ```
 
 #### assocIn
 `(assoc-in m [k & ks] v)`
 ```js path=dist/core.js
-var assocIn = (...args) =>{
+function assocIn(...args){
   let [obj, keys, val] = args;
   if (args.length === 3) {
     keys = Array.isArray(keys) ? keys : [keys];
@@ -164,18 +143,15 @@ var assocIn = (...args) =>{
 usage:
 
 ```js path=dist/test.core.js
-test('should assoc in path given value', ()=>{
-  let obj = {a: 1, b:{c: 10}};
-  let res = assocIn(obj, ['b', 'c'], 20);
-  assert.deepEqual(res, {a:1, b:{c: 20}});
-});
+var obj = {a: 1, b:{c: 10}};
+var res = assocIn(obj, ['b', 'c'], 20); //{a:1, b:{c: 20}}
 ```
 
 #### updateIn
 `(update-in m ks f & args)`
 
 ```js path=dist/core.js
-var updateIn = (...args) =>{
+function updateIn(...args){
   let [object, keys, updateFn] = args;
   if (args.length === 2) {
     return (updateFn) => updateIn(object, keys, updateFn);
@@ -190,40 +166,33 @@ var updateIn = (...args) =>{
 usage:
 
 ```js path=dist/test.core.js
-test('should updateIn path, uppercase full name', ()=>{
-  let obj = {name:{ full_name: "aziz zaeny"}};
-  let upperCase = (val) => val.toString().toUpperCase();
-  let path = ["name", "full_name"];
-  let res = updateIn(obj, path, upperCase);
-  let fullName  = getIn(res, path);
-  assert.equal(fullName, "AZIZ ZAENY");
-})
+var obj = {name:{ full_name: "aziz zaeny"}};
+var res = updateIn(obj, ["name", "full_name"], upperCase);
+var fullName  = getIn(res, ["name", "full_name"]); // "AZIZ ZAENY"
 ```
 
 #### merge
 `(merge & maps)`
 ```js path=dist/core.js
-var merge = (...args) =>{
+function merge(...args){
   return Object.assign({}, ...args);
 }
 ```
+
 usage:
 
 ```js path=dist/test.core.js
-test('should merge more maps or object', ()=>{
-  let obj1 = {a:1}
-  let obj2 = {a:11, b:2};
-  let obj3 = {c:32}
-  let res = merge(obj1, obj2, obj3);
-  assert.deepEqual(res, {a:11, b:2, c:32})
-});
-
+var obj1 = {a:1}
+var obj2 = {a:11, b:2};
+var obj3 = {c:32}
+var res = merge(obj1, obj2, obj3); //  {a:11, b:2, c:32}
 ```
+
 #### mergeWith
 `(merge-with f & maps)`
 
 ```js path=dist/core.js
-var mergeWith = (...args) =>{
+function mergeWith(...args) =>{
   let [fn, ...maps] = args;
   if (maps.length === 0) {
     return {};
@@ -252,20 +221,15 @@ var mergeWith = (...args) =>{
 
 usage:
 ```js path=dist/test.core.js
-test('should test merge with function', ()=>{
-  let obj1 = {a:1, b: 0};
-  let obj2 = {a:2, b: 2};
-  let sum = (a, b) => a + b;
-  let inc = (val) => val + 1;  
-  let res = mergeWith(inc, obj1, obj2);
-  assert.deepEqual(res, {a:3, b:3})
-})
+var obj1 = {a:1, b: 0};
+var obj2 = {a:2, b: 2};
+var res = mergeWith(inc, obj1, obj2); //  {a:3, b:3}
 ```
 
 #### selectKeys
 `(select-keys map keyseq)`
 ```js path=dist/core.js
-var selectKeys = (...args) =>{
+function selectKeys(...args){
   let [obj, keys] = args;
   if (args.length === 2) {
     return Object.fromEntries(Object.entries(obj).filter(([key, value]) => keys.includes(key)));
@@ -276,17 +240,15 @@ var selectKeys = (...args) =>{
 ```
 usage:
 ```js path=dist/test.core.js
-test('should return selected keys', ()=>{
-  let obj = {a:1, b:2, c:3, d:4};
-  let res = selectKeys(obj, ['b', 'c']);
-  assert.deepEqual(res, {b:2, c:3})
-});
+var obj = {a:1, b:2, c:3, d:4};
+selectKeys(obj, ['b', 'c']); // {b:2, c:3}
 ```
+
 #### renameKeys
 `(rename-keys map kmap)`
 
 ```js path=dist/core.js
-var renameKeys = (...args) =>{
+function renameKeys(...args){
   let [obj, keyMap] = args;
   if(args.length === 1){
     return (keyMapA) => renameKeys(obj, keyMapA);
@@ -297,37 +259,32 @@ var renameKeys = (...args) =>{
 ```
 usage:
 ```js path=dist/test.core.js
-
-test(' should rename key b to c', ()=>{
-  let res = renameKeys({a: 1, b:2}, {"b": "c"});
-  assert.deepEqual(res, {a:1, c:2});
-});
+renameKeys({a: 1, b:2}, {"b": "intoC"}); // {a:1, intoC: 2}
 ```
 
 #### keys
 ```js path=dist/core.js
-var keys = (obj) => Object.keys(obj);
+function keys(obj){ return Object.keys(obj); }
 ```
+
 usage: 
 ```js path=dist/test.core.js
-test('get keys of objects', ()=>{
-  assert.deepEqual(keys({a:1, b:2}), ['a','b'])
-})
+keys({a:1, b:2}) //['a','b']
 ```
+
 #### vals
 ```js path=dist/core.js
-var vals = (obj)=> Object.values(obj);
+function vals(obj){ return Object.values(obj); }
 ```
+
 usage: 
 ```js path=dist/test.core.js
-test('should get vals of objects', ()=>{
-  assert.deepEqual(vals({a:1, b:2}), [1,2])
-})
+vals({a:1, b:2}) // [1,2]
 ```
 
 #### zipmap
 ```js path=dist/core.js
-var zipmap = (...args) =>{
+function zipmap(...args){
   let [keys, vals] = args;
   if(args.length === 1){
     return (valsA) => zipmap(keys, valsA);
@@ -337,12 +294,12 @@ var zipmap = (...args) =>{
     return result;
   }, {});
 }
+
 ```
+
 usage: 
 ```js path=dist/test.core.js
-test('should zipmap given arrays of keys and values', ()=>{
-  assert.deepEqual(zipmap(['a', 'b'])([1,2]), {a:1, b:2})
-});
+zipmap(['a', 'b'], [1,2]); //, {a:1, b:2}
 ```
 
 ### Collections

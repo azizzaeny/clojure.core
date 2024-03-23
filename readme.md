@@ -2,7 +2,7 @@
 [![npm version](https://img.shields.io/npm/v/@zaeny/clojure.core.svg)](https://www.npmjs.com/package/@zaeny/clojure.core)
 ![npm downloads](https://img.shields.io/npm/dm/@zaeny/clojure.core.svg)  
 
-> Clojure core functions in javascript   
+> Clojure core functions in javascript land   
 
 - [Usage](#usage)
 - [Problem to Solve](#problem-to-Solve)
