@@ -199,15 +199,15 @@ module.exports = {
 
 ### Documentation
 the implementation and the actual code is produced by literate programming method
-- [part 01 - Working with objects](./core.md#objects)   
-- [part 02 - Collections](./core.md#collections)   
-- [part 03 - Functions compositions](./core.md#functions)  
-- [part 04 - Checks and validations](./core.md#checks)  
-- [part 05 - Math functions](./core.md#maths.md)   
-- [part 06 - Working with string](./core#string)  
-- [part 07 - Working with states using atom](./core.md#atom)
-- [part 08 - Working with multi method](./core.md#multi-method) (wip)   
-- [part 09 - Transducer, reducer](./core.md#transducer) (draft)  
+- [part 01 - Working with objects](./core.md#Objects)   
+- [part 02 - Collections](./core.md#Collections)   
+- [part 03 - Functions compositions](./core.md#Functions)  
+- [part 04 - Checks and validations](./core.md#Checks)  
+- [part 05 - Math functions](./core.md#Maths.md)   
+- [part 06 - Working with string](./core#String)  
+- [part 07 - Working with states using atom](./core.md#Atom)
+- [part 08 - Working with multi method](./core.md#Multi-method) (wip)   
+- [part 09 - Transducer, reducer](./core.md#Transducer) (draft)  
 
 ### Development 
 TODO: explain better
