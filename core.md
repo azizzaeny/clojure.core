@@ -2396,7 +2396,9 @@ toIntSafe(10)
 #### subs
 ```js path=dist/core.js
 
-function subs(str, start, end) {
+function subs(...args) {
+  let [str, start, end] = subs;
+  if(args.length === 1) return (start, end) => str.substring(start, end);
   return str.substring(start, end);
 }
 
@@ -2422,11 +2424,14 @@ usage:
 #### replace
 ```js path=dist/core.js
 
-function replace(str, pattern, replacement) {
+function replace(...args) {
+  let [str, pattern, replacement] = args;
+  if(args.length === 1) return (pattern, replacement) => str.replace(pattern, replacement);
   return str.replace(new RegExp(pattern, "g"), replacement);
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 replace("hello world", "o", "a"); // "hella warld"
@@ -2434,12 +2439,13 @@ replace("hello world", "o", "a"); // "hella warld"
 
 #### replaceFirst
 ```js path=dist/core.js
-
-function replaceFirst(str, pattern, replacement) {
+function replaceFirst(...args) {
+  let [str, pattern, replacement] = args;
+  if(args.length === 1) return (pattern, replacement) => str.replace(pattern, replacement);
   return str.replace(pattern, replacement);
 }
-
 ```
+
 usage: 
 ```js path=dist/test.core.js
 replaceFirst("hello world", "o", "a"); // "hella world"
@@ -2448,7 +2454,9 @@ replaceFirst("hello world", "o", "a"); // "hella world"
 #### join
 ```js path=dist/core.js
 
-function join(arr, separator) {
+function join(...args) {
+  let [arr, separator] = args;
+  if(args.length === 1) return (separator) => arr.join(separator);
   return arr.join(separator);
 }
 
@@ -2486,8 +2494,9 @@ rePattern("hello.*");
 
 #### reMatches
 ```js path=dist/core.js
-
-function reMatches(str, pattern) {
+function reMatches(...args) {
+  let [str, pattern] = args;
+  if(args.length === 1) return (pattern) => reMatches(str, pattern);
   var regex = new RegExp(pattern, "g");
   var matches = [];
   var match;
@@ -2538,6 +2547,7 @@ function upperCase(str) {
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 upperCase("hello world"); // "HELLO WORLD"
@@ -2602,6 +2612,7 @@ function char(n) {
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 char(56);
@@ -2690,6 +2701,128 @@ function atom(initialValue) {
   };
 }
 ```
+
+#### deref
+```js path=dist/core.js
+function deref(atom){
+  return atom.deref();
+}
+```
+
+usage: 
+```js path/dist/test.core.js
+deref(s);
+```
+
+#### reset
+```js path=dist/core.js
+function reset(...args){
+  let [atom, value] = args
+  if(args.length === 1) return (value) => atom.reset(value);
+  atom.reset(value);
+  return atom;
+}
+```
+
+usage: 
+```js path=dist/test.core.js
+reset(s, 100);
+```
+
+#### swap
+```js path=dist/core.js
+function swap(...args){
+  let [atom, fn, ...rest] = args;
+  if(args.length === 1) return (fn, ...rest) => atom.swap(fn, ...rest);
+  atom.swap(fn, ...args);
+  return atom;
+}
+```
+
+usage: 
+```js path=dist/test.core.js
+swap(s, (n)=> n - 10)
+```
+
+#### compareAndSet
+```js path=dist/core.js
+function compareAndSet(...args){
+  let [atom, expected, newVal] = args;
+  if(args.length === 1) return (expected, newVal) => atom.compareAndSet(expected, newVal);  
+  atom.compareAndSet(expected, newVal);
+  return atom;
+}
+```
+
+usage: 
+```js path=dist/test.core.js
+compareAndSet(s, 90, 200)
+deref(s);
+```
+
+#### addWatch
+```js path=dist/core.js
+function addWatch(...args){
+  let [atom, name, watcherFn] = args;
+  if(args.length === 1) return (name, watcherFn) => atom.addWatch(name, watcherFn);
+  atom.addWatch(name, watcherFn);
+  return atom;
+}
+```
+
+usage: 
+```js path=dist/test.core.js
+addWatch(s, 'foo', (n, o) => console.log(n,o));
+reset(s, 100);
+```
+
+#### removeWatch 
+```js path=dist/core.js
+function removeWatch(...args){
+  let [atom, watcherFn] = args;
+  if(args.length === 1) return (watcherFn) => atom.removeWatch(watcherFn);
+  atom.removeWatch(watcherFn);
+  return atom;
+}
+```
+
+usage: 
+```js path=dist/test.core.js
+removeWatch(s, "foo");
+```
+
+#### setValidator
+```js path=dist/core.js
+function setValidator(...args){
+  let [atom, validatorFn] = args;
+  if(args.length === 1) return (validatorFn) => atom.setValidator(validatorFn);
+  atom.setValidator(validatorFn);
+  return atom;
+}
+```
+
+usage: 
+```js path=dist/test.core.js
+setValidator(s, (n)=> n >0);
+reset(s, 100)
+reset(s, 0)
+s.deref()
+```
+
+#### removeValidator
+```js path=dist/core.js
+
+function removeValidator(atom){
+  atom.removeValidator();
+  return atom;
+}
+```
+
+usage: 
+```js path=dist/test.core.js
+removeValidator(s)
+```
+
 usage: test direct
 
 ```js path=dist/test.core.js
@@ -2706,109 +2839,8 @@ s.reset(-20);
 s.compareAndSet(-20, 20)
 s.compareAndSet(-20, 20)
 s.deref();
-
 ```
 
-#### deref
-```js path=dist/core.js
-function deref(atom){
-  return atom.deref();
-}
-```
-usage: 
-```js path/dist/test.core.js
-deref(s);
-```
-
-#### reset
-```js path=dist/core.js
-function reset(atom, value){
-  atom.reset(value)
-  return atom;
-}
-```
-usage: 
-```js path=dist/test.core.js
-reset(s, 100);
-```
-
-#### swap
-```js path=dist/core.js
-function swap(atom, fn, ...args){
-  atom.swap(fn, ...args);
-  return atom;
-}
-```
-usage: 
-```js path=dist/test.core.js
-swap(s, (n)=> n - 10)
-```
-
-#### compareAndSet
-
-```js path=dist/core.js
-function compareAndSet(atom, expected, newVal){
-  atom.compareAndSet(expected, newVal);
-  return atom;
-}
-```
-usage: 
-```js path=dist/test.core.js
-compareAndSet(s, 90, 200)
-deref(s);
-
-```
-#### addWatch
-```js path=dist/core.js
-function addWatch(atom, name, watcherFn){
-  atom.addWatch(name, watcherFn);
-  return atom;
-}
-```
-usage: 
-```js path=dist/test.core.js
-addWatch(s, 'foo', (n, o) => console.log(n,o));
-reset(s, 100);
-```
-
-#### removeWatch 
-```js path=dist/core.js
-function removeWatch(atom, watcherFn){
-  atom.removeWatch(watcherFn)
-  return atom;
-}
-```
-usage: 
-```js path=dist/test.core.js
-removeWatch(s, "foo");
-```
-
-#### setValidator
-```js path=dist/core.js
-function setValidator(atom, validatorFn){
-  atom.setValidator(validatorFn);
-  return atom;
-}
-```
-usage: 
-```js path=dist/test.core.js
-setValidator(s, (n)=> n >0);
-reset(s, 100)
-reset(s, 0)
-s.deref()
-```
-#### removeValidator
-```js path=dist/core.js
-
-function removeValidator(atom){
-  atom.removeValidator();
-  return atom;
-}
-```
-usage: 
-```js path=dist/test.core.js
-removeValidator(s)
-```
 
 ### Multi method
 **@zaeny/clojure.core/multi-method**
