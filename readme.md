@@ -1,19 +1,21 @@
 ## @zaeny/clojure.core
 
+[![npm version](https://img.shields.io/npm/v/@zaeny/clojure.core.svg)](https://www.npmjs.com/package/@zaeny/clojure.core)
+![npm downloads](https://img.shields.io/npm/dm/@zaeny/clojure.core.svg)  
+
+> Clojure core functions in javascript land    
+
+
+an attempt to port clojure core library function so it available in javascript to be use.  
+all naming and all argument functions required should be exact match with clojure so we are not have pain dealing with functional programming in javascript land.  
+
+
+
 - [Getting Startd](#getting-started)  
 - [Usage](#usage) and pattern
 - [Rational](#Rational) and a problem to solve
 - [Documentation](#documentation)
 - [Development](#development)
-
-
-> Clojure core functions in javascript land   
-
-[![npm version](https://img.shields.io/npm/v/@zaeny/clojure.core.svg)](https://www.npmjs.com/package/@zaeny/clojure.core)
-![npm downloads](https://img.shields.io/npm/dm/@zaeny/clojure.core.svg)  
-
-an attempt to port clojure core library function so it available in javascript to be use.  
-all naming and all argument functions required should be exact match with clojure so we are not have pain dealing with functional programming in javascript land.  
 
 ### Getting Started  
  ``` 
