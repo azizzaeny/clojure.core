@@ -6,8 +6,8 @@
 > Clojure core functions in javascript land    
 
 
-an attempt to port clojure core library function so it available in javascript to be use.  
-all naming and all argument functions required should be exact match with clojure so we are not have pain dealing with functional programming in javascript land.  
+An attempt to port clojure core library function so it available in javascript to be use.   
+All naming and all argument functions required should be exact match with clojure so we are not have pain dealing with functional programming in javascript land.   
 
 
 
