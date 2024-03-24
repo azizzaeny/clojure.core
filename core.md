@@ -1621,7 +1621,7 @@ thread(
 ```
 
 #### thread
-thread first `->` behaviour without partial right
+thread first `->` 
 thread last `->>` with partial left 
 
 ```js path=dist/core.js
@@ -1636,7 +1636,7 @@ function thread(val, ...forms) {
 
 usage: 
 ```js path=dist/test.core.js
-// thread first behaviour
+// thread last behaviour
 thread(
   22,
   (x) => x * 10,
@@ -1645,7 +1645,7 @@ thread(
 
 thread([22,10], map(x => x *10), map (x => x +5))
 
-// thread last behaviour
+// thread first behaviour
 thread(
   {a: 1},
   partialLeft(assoc, 'b', 1),
@@ -1654,10 +1654,10 @@ thread(
 
 ```
 
-#### threadFirst
+#### threadLast
 ```js path=dist/core.js
 
-function threadFirst(val, ...forms){
+function threadLast(val, ...forms){
   return forms.reduce((acc, form) => {
     let [fn, ...rest] = form;
     if(rest && rest.length > 0) return fn(...rest);    
@@ -1671,12 +1671,12 @@ usage:
 ```js path=dist/test.core.js
 var incr = (a) => a + 1;
 
-threadFirst(
+threadLast(
   {a: 1},
   [seq]
 )
 
-threadFirst(
+threadLast(
   [11],
   [map, (x) => x * 7]
 )
@@ -1684,10 +1684,10 @@ threadFirst(
 ```
 
 
-#### threadLast 
+#### threadFirst 
 ```js path=dist/core.js
 
-function threadLast(val, ...forms){
+function threadFirst(val, ...forms){
   return forms.reduce((acc, form) => {
     let [fn, ...rest] = form;
     if(rest && rest.length > 0){      
@@ -1704,7 +1704,7 @@ usage:
 ```js path=dist/test.core.js
 var incr = (a) => a + 1;
 
-threadLast(
+threadFirst(
   {a: 1},
   [assoc, "foo", "bar"],
   [assoc, "My", 1]
