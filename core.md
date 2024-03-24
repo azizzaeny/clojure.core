@@ -2224,7 +2224,9 @@ randInt(5)
 #### add
 ```js path=dist/core.js
 
-function add(a, b) {
+function add(...args) {
+  let [a, b] = args;
+  if(args.length === 1) return (b) => a + b;
   return a + b;
 }
 
@@ -2236,12 +2238,14 @@ add(1,2)
 
 #### subtract
 ```js path=dist/core.js
-
-function subtract(a, b) {
+function subtract(...args) {
+  let [a, b] = args;
+  if(args.length === 1) return (b) => a - b;
   return a - b;
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 subtract(20,10)
@@ -2250,7 +2254,9 @@ subtract(20,10)
 #### multiply
 ```js path=dist/core.js
 
-function multiply(a, b) {
+function multiply(...args) {
+  let [a, b] = args;
+  if(args.length === 1) return (b) => a * b;
   return a * b;
 }
 
@@ -2262,7 +2268,9 @@ multiply(10, 1)
 
 #### divide
 ```js path=dist/core.js
-function divide(a, b) {
+function divide(...args) {
+  let [a, b] = args;
+  if(args.length === 1) return (b) => a / b;
   return a / b;
 }
 
@@ -2276,7 +2284,9 @@ divide(100, 10)
 #### quot
 ```js path=dist/core.js
 
-function quot(a, b) {
+function quot(...args) {
+  let [a, b] = args;
+  if(args.length === 1) return (b) => Math.floor(a / b);
   return Math.floor(a / b);
 }
 
@@ -2289,7 +2299,9 @@ quot(100, 3)
 #### mod
 ```js path=dist/core.js
 
-function mod(a, b) {
+function mod(...args) {
+  let [a, b] = args;
+  if(args.length === 1) return (b) => a % b;
   return a % b;
 }
 
@@ -2304,10 +2316,13 @@ mod(1, 3)
 #### rem
 ```js path=dist/core.js
 function rem(a, b) {
+  let [a, b] = args;
+  if (args.length === 1) return (b) => ((a % b) + b) % b;
   return ((a % b) + b) % b;
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 rem(10, 20)
@@ -2340,12 +2355,14 @@ decr(10)
 
 #### max
 ```js path=dist/core.js
-
-function max(a, b) {
+function max(...args) {
+  let [a, b] = args;
+  if(args.length === 1) return (b) => Math.max(a, b);  
   return Math.max(a, b);
 }
 
 ```
+
 usage: 
 ```js path=dist/test.core.js
 max(0, 100)
@@ -2353,7 +2370,9 @@ max(0, 100)
 
 #### min
 ```js path=dist/core.js
-function min(a, b) {
+function min(...args) {
+  let [a, b] = args;
+  if(args.length === 1) return (b) => Math.min(a, b);
   return Math.min(a, b);
 }
 
