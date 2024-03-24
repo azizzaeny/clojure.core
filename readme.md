@@ -19,35 +19,34 @@ An attempt to port clojure core library function so it available in javascript t
  ``` 
  npm install @zaeny/clojure.core 
  ``` 
- - CommonJS 
-  ```js 
-   var {get, getIn} = require("@zaeny/clojure.core");  
-  ```
-  - Es6
-  ```js
-  import {peek, assoc} from "@zaeny/clojure.core";
-  ```
- - CDN Import to Browser 
-   - browser
+**CommonJS**
+```js 
+var {get, getIn} = require("@zaeny/clojure.core");  
+```
+**ES6**
+```js
+import {peek, assoc} from "@zaeny/clojure.core";
+```
+**CDN Import to Browser**
 ```js
 <script src="https://cdn.jsdelivr.net/npm/@zaeny/clojure.core"></script>
 ```   
-   - es6 
+**Browser import**
 ```js
 import {updateIn} from ' https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/+esm';
 ```
-   - es5 export (load non default file)
+**ES5 export (load non default file)**
 ```js 
 https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/dist/core.js
 https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/dist/core.min.js
 ```
 
 ### Usage 
-see documentation bellow to explore the detail functions
+see documentation bellow 
 
 ```js 
 get({a:1}, 'a'); // 1
-get(obj)('a');  // 1 // arity functions, curry arguments by default
+get({a: 1})('a');  // 1 // arity functions, curry arguments by default
 getIn({a: {b: {c: 1}}}, ['a', 'b', 'c']); // 1
 assoc({a:1};, 'b', 20); //  {a:1,b:20}
 assocIn({a: 1, b:{c: 10}};, ['b', 'c'], 20)
@@ -117,6 +116,16 @@ thread(
 ); //225
 
 thread([22,10], map(x => x *10), map (x => x +5)) //[225, 105]
+threadFirst(
+  [11],
+  [map, (x) => x * 7]
+)
+
+threadLast(
+  {a: 1},
+  [assoc, "foo", "bar"],
+  [assoc, "My", 1]
+)
 
 condThread(
   5,
