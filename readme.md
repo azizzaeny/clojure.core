@@ -3,33 +3,51 @@
 ![npm downloads](https://img.shields.io/npm/dm/@zaeny/clojure.core.svg)  
 
 > Clojure core functions in javascript land   
+an attempt to port clojure core library function so it available in javascript to be use.  
+all naming and all argument functions required should be exact match with clojure so we are not have pain dealing with functional programming in javascript land.  
 
-- [Usage](#usage)
-- [Problem to Solve](#problem-to-Solve)
-- [Thinking in Clojure and Functional Programming](#thinking-in-clojure-and-functional-programming)
-- [Difference from Mori and Clojurescript](#difference-from-mori-and-clojurescript)
-- [Naming convention from Clojure](#naming-convention-from-clojure)
-- [Getting Started](#getting-started)
+- [Getting Startd](#getting-started)  
+- [Usage](#usage) and pattern
+- [Rational](#Rational) and a problem to solve
 - [Documentation](#documentation)
 - [Development](#development)
+
+### Getting Started  
+ ``` 
+ npm install @zaeny/clojure.core 
+ ``` 
+ - CommonJS 
+  ```js 
+   var {get, getIn} = require("@zaeny/clojure.core");  
+  ```
+  - Es6
+  ```js
+  import {peek, assoc} from "@zaeny/clojure.core";
+  ```
+ - CDN Import to Browser 
+   - browser
+```js
+<script src="https://cdn.jsdelivr.net/npm/@zaeny/clojure.core"></script>
+```   
+   - es6 
+```js
+import {updateIn} from ' https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/+esm';
+```
+   - es5 export (load non default file)
+```js 
+https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/dist/core.js
+https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/dist/core.min.js
+```
 
 ### Usage 
 see documentation bellow to explore the detail functions
 
-```js
-var obj = {a:1}
-get(obj, 'a'); // 1
-// arity functions, curry arguments
-get(obj)('a');  // 1
-
-var obj = {a: {b: {c: 1}}};
-getIn(obj, ['a', 'b', 'c']); // 1
-
-var obj = {a:1};
-assoc(obj, 'b', 20); //  {a:1,b:20}
-
-var obj = {a: 1, b:{c: 10}};
-assocIn(obj, ['b', 'c'], 20)
+```js 
+get({a:1}, 'a'); // 1
+get(obj)('a');  // 1 // arity functions, curry arguments by default
+getIn({a: {b: {c: 1}}}, ['a', 'b', 'c']); // 1
+assoc({a:1};, 'b', 20); //  {a:1,b:20}
+assocIn({a: 1, b:{c: 10}};, ['b', 'c'], 20)
 
 first([1,2]); //1
 ffirst([[0, 1], [1,2]]) //0
@@ -119,35 +137,8 @@ replace("hello world", "o", "a"); // "hella warld"
 capitalize("hello world"); // "Hello world"
 lowerCase("HELLO WORLD"); // "hello world"
 upperCase("hello world"); // "HELLO WORLD"
-
 ```
 
-### Getting Started  
- ``` 
- npm install @zaeny/clojure.core 
- ``` 
- - CommonJS 
-  ```js 
-   var {get, getIn} = require("@zaeny/clojure.core");  
-  ```
-  - Es6
-  ```js
-  import {peek, assoc} from "@zaeny/clojure.core";
-  ```
- - CDN Import to Browser 
-   - browser
-```js
-<script src="https://cdn.jsdelivr.net/npm/@zaeny/clojure.core"></script>
-```   
-   - es6 
-```js
-import {updateIn} from ' https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/+esm';
-```
-   - es5 export (load non default file)
-```js 
-https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/dist/core.js
-https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/dist/core.min.js
-```
    
 ###  Rationale
 **A Problem to solve**
@@ -159,21 +150,21 @@ for example:
 
 I have experiencing this issues and I think with providing clojure.core library or translating clojure.core to javascript can help for those people that has similiar problem that want to use functional programming clojure library but in javascript land using javascript syntax.  
 
-TODO: why clojure?  rich library functions, naming conventions of functions
+TODO: explain better
+ - why clojure?  rich library functions, naming conventions of functions
+ - Thinking in clojure and functional programming
+ - Difference from mori and clojurescript
+ - Naming convention from clojure 
 
-### Thinking in Clojure and Functional Programming
-(todo)
-### Difference from Mori and Clojurescript
-(todo)
-### Naming convention from Clojure 
-(todo)
 
+### Documentation
+the implementation and the actual code is produced by literate programming method
+- [core.md](./core.md)   
 
 ###  Supported Functions  
 Current status all supported functions  
 
 ```js path=dist/core.js
-
 module.exports = {
   // object,
   get,
@@ -257,7 +248,18 @@ module.exports = {
   constantly,
   identity,
   fnil,
-  memoize, everyPred, complement, partial, juxt, someFn, partialRight, partialLeft, thread, condThread,  
+  memoize,
+  everyPred,
+  complement,
+  partial,
+  juxt,
+  someFn,
+  partialRight,
+  partialLeft,
+  thread,
+  threadFirst,
+  threadLast,
+  condThread,  
 
   // checks
   isNotEmpty, isEmpty, isContains, isIncludes, isIncludes, isZero, isPos, isNeg, isEven, isOdd, isInt, isTrue, isFalse, isInstanceOf, isSome, isFn, isDeepEqual, isNil,
@@ -270,34 +272,25 @@ module.exports = {
   subs, splitLines, replace, replaceFirst, join, escape, rePattern, reMatches, capitalize, lowerCase, upperCase, trim, trimNewLine, trimL, trimR, char,
   // state
 
-  atom, deref, reset, swap, addWatch, removeWatch, setValidator, compareAndSet, removeValidator,
+  atom,
+  deref,
+  reset,
+  swap,
+  addWatch,
+  removeWatch,
+  setValidator,
+  compareAndSet,
+  removeValidator,
   // mutli method  
 }
 ```
 
-### Documentation
-the implementation and the actual code is produced by literate programming method
-- [part 01 - Working with objects](./core.md#Objects)   
-- [part 02 - Collections](./core.md#Collections)   
-- [part 03 - Functions compositions](./core.md#Functions)  
-- [part 04 - Checks and validations](./core.md#Checks)  
-- [part 05 - Math functions](./core.md#Maths.md)   
-- [part 06 - Working with string](./core#String)  
-- [part 07 - Working with states using atom](./core.md#Atom)
-- [part 08 - Working with multi method](./core.md#Multi-method) (wip)   
-- [part 09 - Transducer, reducer](./core.md#Transducer) (draft)  
 
 ### Development 
 TODO: explain better
 Setup test ground on node.js repl, `node` then evaluate bellow line
 to Build & Compile (todo) gather all the contents code blocks, `bin/build` will output all code into `core.js` in `dist` folder
-
-TODO: Work In Progress
-
-### TODO
-- arity function arguments of atom
-- when ifelse functional
-- sequence, doSeq
+Work In Progress
 
 ### Changes
  - [1.0.1] add atom functions `reset, swap, compareAndSet, addWatch, removeWatch, setValidator`

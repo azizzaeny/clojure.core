@@ -1723,6 +1723,7 @@ var condThread = (value, ...conditions) => {
   }, value);
 };
 ```
+
 usage: 
 ```js path=dist/test.core.js
 condThread(
