@@ -1611,12 +1611,20 @@ usage:
 var myfn2 = (a,b,c,d) => a + b + c + d;
 var newFn = partialLeft(myfn2, 'a', 'z', 'i');
 newFn('z');
-var foo = (a) => 'Mr. '+a;
+
+thread(
+  {a: 1},
+  partialLeft(assoc, 'b', 1),
+  partialLeft(assocIn, ['foo', 'abr'], '200')
+); // { a: 1, b: 1, foo: { abr: '200' } }
+
 ```
 
-#### thread (->> thread last behavior)
-```js path=dist/core.js
+#### thread
+thread first `->` behaviour without partial right
+thread last `->>` with partial left 
 
+```js path=dist/core.js
 function thread(val, ...forms) {
   return forms.reduce((acc, form) => {
     //let fn = partialRight(form);
@@ -1625,8 +1633,10 @@ function thread(val, ...forms) {
   }, val);                     
 }
 ```
+
 usage: 
 ```js path=dist/test.core.js
+// thread first behaviour
 thread(
   22,
   (x) => x * 10,
@@ -1634,6 +1644,72 @@ thread(
 )
 
 thread([22,10], map(x => x *10), map (x => x +5))
+
+// thread last behaviour
+thread(
+  {a: 1},
+  partialLeft(assoc, 'b', 1),
+  partialLeft(assocIn, ['foo', 'abr'], '200')
+); // { a: 1, b: 1, foo: { abr: '200' } }
+
+```
+
+#### threadFirst
+```js path=dist/core.js
+
+function threadFirst(val, ...forms){
+  return forms.reduce((acc, form) => {
+    let [fn, ...rest] = form;
+    if(rest && rest.length > 0) return fn(...rest);    
+    return fn(acc);
+  }, val);
+}
+
+```
+
+usage:
+```js path=dist/test.core.js
+var incr = (a) => a + 1;
+
+threadFirst(
+  {a: 1},
+  [seq]
+)
+
+threadFirst(
+  [11],
+  [map, (x) => x * 7]
+)
+
+```
+
+
+#### threadLast 
+```js path=dist/core.js
+
+function threadLast(val, ...forms){
+  return forms.reduce((acc, form) => {
+    let [fn, ...rest] = form;
+    if(rest && rest.length > 0){      
+      let fns = partialLeft(fn, ...rest);
+      return fns(acc);
+    }else{
+      return fn(acc);
+    }
+  }, val);
+}
+```
+
+usage:
+```js path=dist/test.core.js
+var incr = (a) => a + 1;
+
+threadLast(
+  {a: 1},
+  [assoc, "foo", "bar"],
+  [assoc, "My", 1]
+)
+
 ```
 
 #### condThread
@@ -1736,7 +1812,9 @@ isContains('foo', 'o')
 #### isIncludes
 ```js path=dist/core.js
 
-function isIncludes(coll, value) {
+function isIncludes(...args) {
+  let [coll, value] = args;
+  if(args.length === 1) return (value) => coll.includes(value);
   return coll.includes(value);
 }
 
@@ -2167,7 +2245,9 @@ isNotAnyEven([1])
 
 #### isDeepEqual
 ```js path=dist/core.js
-function isDeepEqual(a, b) {
+function isDeepEqual(...args) {
+  let [a, b] = args;
+  if(args.length === 1) return (b) => isDeepEqual(a, b);  
   if (Array.isArray(a) && Array.isArray(b)) {
     if (a.length !== b.length) return false;
     for (let i = 0; i < a.length; i++) {
