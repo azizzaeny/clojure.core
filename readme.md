@@ -153,7 +153,7 @@ upperCase("hello world"); // "HELLO WORLD"
 
    
 ###  Rationale
-**A Problem to solve**
+**A Problem to solve**   
 As a Software Engineer, there are several scenarios where we cannot be selective about certain development methods, ideas, and programming paradigms that we typically utilize in our daily work. For instance:  
 
 - You have recently joined an established team of developers who predominantly employ object-oriented programming, making it challenging to immediately introduce and integrate functional programming techniques.  
