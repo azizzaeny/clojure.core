@@ -154,13 +154,14 @@ upperCase("hello world"); // "HELLO WORLD"
    
 ###  Rationale
 **A Problem to solve**
-As Software Engineer there are several use cases that we cannot be picky about certain development methods, ideas, and programming paradigms that we usually used daily in our work.  
-for example:  
-- You have recently joined an established team of developers that use object-oriented style programming and cannot use functional programming style into the team to immediately adapt and work as the way you like it.  
-- You are the third party developer that needs to fix code on the production of the current development team, but you cannot convert the whole code into clojure.   
-- Your team is working on javascript language while you yourself has experiencing the light of doing clojure development but you cannot bring the arguments to your bosses and college to change the whole development around it   
+As a Software Engineer, there are several scenarios where we cannot be selective about certain development methods, ideas, and programming paradigms that we typically utilize in our daily work. For instance:  
 
-I have experiencing this issues and I think with providing clojure.core library or translating clojure.core to javascript can help for those people that has similiar problem that want to use functional programming clojure library but in javascript land using javascript syntax.  
+- You have recently joined an established team of developers who predominantly employ object-oriented programming, making it challenging to immediately introduce and integrate functional programming techniques.  
+- You are a third-party developer tasked with resolving issues in the production code of an existing development team, but you are unable to transition the entire codebase to Clojure.  
+- Despite your personal experience and preference for Clojure development, your team primarily works with JavaScript, and you encounter resistance when advocating for a transition to Clojure.  
+
+Having encountered these challenges myself, I believe that providing access to the Clojure.core library or translating its functionalities to JavaScript can be beneficial for individuals facing similar dilemmas.   
+This approach enables the utilization of functional programming paradigms inherent in Clojure within the JavaScript ecosystem, thereby addressing the needs of those who wish to leverage Clojure's functional programming capabilities while adhering to JavaScript syntax conventions.
 
 TODO: explain better
  - why clojure?  rich library functions, naming conventions of functions
@@ -298,11 +299,8 @@ module.exports = {
 ```
 
 
-### Development 
-TODO: explain better
-Setup test ground on node.js repl, `node` then evaluate bellow line
-to Build & Compile (todo) gather all the contents code blocks, `bin/build` will output all code into `core.js` in `dist` folder
-Work In Progress
+### Development && Contribution
+TODO:
 
 ### Changes
  - [1.0.1] add atom functions `reset, swap, compareAndSet, addWatch, removeWatch, setValidator`
