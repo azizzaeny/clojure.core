@@ -42,7 +42,7 @@ https://cdn.jsdelivr.net/npm/@zaeny/clojure.core/dist/core.min.js
 ```
 the  use it   
 
-### Usage && Example
+### Usage
 see documentation bellow 
 
 ```js
@@ -64,7 +64,7 @@ juxt((n)=> n*2, (n)=> n + 10, (n)=> n*100)(10) //  [20, 20, 1000]
 frequencies([1,1,1,2,2,2,3,4,5,6,7,8,8]); // { '1': 3, '2': 3, '3': 1, '4': 1, '5': 1, '6':1, '7': 1, '8': 2 }
 union([1,2,3,4,5], [1,2,3,8,9]); // [1,2,3,4,5,8,9]
 threadFirst([22], [map, (x) => x * 10]); // [220]
-threadLast({a: 11}, [assoc,"b", "22"] // {a: 11, b: 22}
+threadLast({a: 11}, [assoc,"b", "22"]) // {a: 11, b: 22}
 comp(addTwo, square, doubleIt);
 ```
    
@@ -86,11 +86,11 @@ TODO: explain better
  - Naming convention from clojure 
 
 
-### Documentation && Supported functions
+### Documentation and supported functions
 Current status all supported functions see [core.md](./core.md). 
 
 
-### Development && Contribution
+### Development and contribution
 TODO:
 
 ### Changes
