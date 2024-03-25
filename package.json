@@ -1,13 +1,13 @@
 {
   "name": "@zaeny/clojure.core",
   "version": "1.0.2",
-  "description": "core clojure functions in javascript land",
+  "description": "Clojure core functions in javascript land,  an attempt to port clojure core library function so it available in javascript ",
   "main": "dist/core.js",
   "scripts": {
-    "build": "./bin/build",
+    "build": "./build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "https://github.com/azizzaeny/clojure.core.git",
   "author": "azizzaeny",
-  "license": "ISC"
+  "license": "GPL"
 }

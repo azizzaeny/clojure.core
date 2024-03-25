@@ -63,8 +63,8 @@ apply(get, [ {a: 1}, "a" ]) // 1
 juxt((n)=> n*2, (n)=> n + 10, (n)=> n*100)(10) //  [20, 20, 1000]
 frequencies([1,1,1,2,2,2,3,4,5,6,7,8,8]); // { '1': 3, '2': 3, '3': 1, '4': 1, '5': 1, '6':1, '7': 1, '8': 2 }
 union([1,2,3,4,5], [1,2,3,8,9]); // [1,2,3,4,5,8,9]
-threadFirst([22], [map, (x) => x * 10]); // [220]
-threadLast({a: 11}, [assoc,"b", "22"]) // {a: 11, b: 22}
+threadLast([22], [map, (x) => x * 10]); // [220]
+threadFirst({a: 11}, [assoc,"b", "22"]) // {a: 11, b: 22}
 comp(addTwo, square, doubleIt);
 ```
    
@@ -91,8 +91,113 @@ Current status all supported functions see [core.md](./core.md).
 
 
 ### Development and contribution
-TODO:
+To update the code first you need to extract it from `core.md` 
+
+**Extracting codes**
+```sh
+./build core.md
+```
+
+update package.json
+
+```json path=package.json
+{
+  "name": "@zaeny/clojure.core",
+  "version": "1.1.0",
+  "description": "Clojure core functions in javascript land,  an attempt to port clojure core library function so it available in javascript ",
+  "main": "dist/core.js",
+  "scripts": {
+    "build": "./build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "https://github.com/azizzaeny/clojure.core.git",
+  "author": "azizzaeny",
+  "license": "GPL"
+}
+```
+
+extract package.json
+```sh
+./build readme.md
+```
+
+publishing npm
+
+```sh
+npm version
+npm publish
+```
+
+if needed update the build code
+
+```sh
+
+docker run --rm -it --network host  --entrypoint "" -w /www \
+       -v $(pwd)/readme.md:/www/readme.md:rw \
+       -v $(pwd)/core.md:/www/core.md:rw \
+       -v $(pwd)/package.json:/www/package.json \
+       node:20-alpine /bin/sh
+sleep 1
+node -i -e "$(cat <<'EOT'
+#!/usr/bin/env node
+
+var fs = require('fs');
+
+function extractCode(markdown){
+  let regex = /```(\w+)((?:\s+\w+=[\w./]+)*)\s*([\s\S]*?)```/g;
+  function extractParams(paramsString){
+    if(paramsString){
+      return paramsString.split(/\s+/).reduce((acc, params)=>{
+        let [key, value] = params.split('=');
+        if(key && value){
+          acc[key] = isNaN(value) ? value : parseInt(value);
+        }     
+        return acc;
+      }, {});
+    }
+    return {};
+  }
+  return [...markdown.matchAll(regex)].reduce((acc, match) => {
+    let lang         = match[1];
+    let paramsString = match[2];
+    let code         = match[3].trim();
+    let params       = extractParams(paramsString);
+    return acc.concat({
+      ...params,
+      lang,
+      code
+    });
+  }, []);
+}
+
+function groupByPath(extracted){
+  return extracted.reduce((acc, value)=>{
+    if(!acc[value['path']]){
+      acc[value['path']] = value['code'];
+    }else{
+      acc[value['path']] = acc[value['path']].concat('\n\n', value['code'])
+    }
+    return acc;
+  }, {})
+}
+
+var argv = process.argv[2] || 'core.md';
+var files = [
+  argv
+];
+var bundle = files.map((file) => fs.readFileSync(file, 'utf8')).join('\n');
+var code = extractCode(bundle);
+var [usage, exports, ...restCode] = code;
+var blocks = restCode.concat(exports).filter(b => b.path);
+var groupFile = groupByPath(blocks);
+var writeOut = Object.entries(groupFile).map(([file, contents]) => ((file) ? fs.writeFileSync(file, contents, { flag: 'w+'}) : file, file))
+
+console.log('written files:', writeOut.length, writeOut.join(' '));
+EOT
+)"
+```
 
 ### Changes
  - [1.0.1] add atom functions `reset, swap, compareAndSet, addWatch, removeWatch, setValidator`
  - [1.0.2] fix Readme.md
+ - [1.1.0] add `threadLast, threadFirst`, fix function arity `atom` `string` and `math`
