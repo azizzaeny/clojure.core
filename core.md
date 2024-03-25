@@ -322,6 +322,31 @@ zipmap(['a', 'b'], [1,2]); //, {a:1, b:2}
 
 **@zaeny/clojure.core/collections** Array manipulation  
 
+#### into 
+`(into)(into to)(into to from)(into to xform from)`
+
+```js path=dist/core.js
+
+function into(...args){
+  let [target, iterable] = args;
+  if(args.length === 1) return (iterable) => into(target, iterable);
+  if(target instanceof Object && target.constructor === Object){
+    return iterable.reduce((acc, [key, value]) => {
+      return { ...acc, [key]: value };
+    }, {});
+  }
+  if(Array.isArray(target)){
+    return Object.entries(iterable).map(([key, value]) => [key, value]);
+  }
+  return new Error('only accept target object or array');
+}
+```
+
+```js path=dist/test.core.js
+into([], {a:1, b:2});
+into({}, [['a',1], ['b', 2]]);
+```
+
 #### count
 
 `(count coll)`
@@ -2840,7 +2865,7 @@ function reset(...args){
   let [atom, value] = args
   if(args.length === 1) return (value) => atom.reset(value);
   atom.reset(value);
-  return atom;
+  return atom.deref();
 }
 ```
 
@@ -2855,7 +2880,7 @@ function swap(...args){
   let [atom, fn, ...rest] = args;
   if(args.length === 1) return (fn, ...rest) => atom.swap(fn, ...rest);
   atom.swap(fn, ...args);
-  return atom;
+  return atom.deref();
 }
 ```
 
@@ -2870,7 +2895,7 @@ function compareAndSet(...args){
   let [atom, expected, newVal] = args;
   if(args.length === 1) return (expected, newVal) => atom.compareAndSet(expected, newVal);  
   atom.compareAndSet(expected, newVal);
-  return atom;
+  return atom.deref();
 }
 ```
 
@@ -2886,7 +2911,7 @@ function addWatch(...args){
   let [atom, name, watcherFn] = args;
   if(args.length === 1) return (name, watcherFn) => atom.addWatch(name, watcherFn);
   atom.addWatch(name, watcherFn);
-  return atom;
+  return atom.deref();
 }
 ```
 
@@ -2902,7 +2927,7 @@ function removeWatch(...args){
   let [atom, watcherFn] = args;
   if(args.length === 1) return (watcherFn) => atom.removeWatch(watcherFn);
   atom.removeWatch(watcherFn);
-  return atom;
+  return atom.deref();
 }
 ```
 
@@ -2917,7 +2942,7 @@ function setValidator(...args){
   let [atom, validatorFn] = args;
   if(args.length === 1) return (validatorFn) => atom.setValidator(validatorFn);
   atom.setValidator(validatorFn);
-  return atom;
+  return atom.deref();
 }
 ```
 
@@ -2934,7 +2959,7 @@ s.deref()
 
 function removeValidator(atom){
   atom.removeValidator();
-  return atom;
+  return atom.deref();
 }
 ```
 
@@ -3107,6 +3132,7 @@ module.exports = {
   nthrest, drop, dropLast, splitAt, shuffle, randNth, vec, subvec, repeat, range, keep, keepIndexed, sort, sortBy, compare, nfirst, nnext,
   map, filter, reduce, find,every, remove, concat, mapcat, mapIndexed, flatten, interleave, interpose, reverse, groupBy, partition, partitionAll, partitionBy,
   frequencies, union, difference, intersection,
+  into,
   // functions
   apply, comp, constantly, identity, fnil, memoize, everyPred, complement, partial, juxt, someFn, partialRight, partialLeft, thread, condThread, threadFirst, threadLast, 
   // checks
