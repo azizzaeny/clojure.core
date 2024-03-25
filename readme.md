@@ -110,10 +110,18 @@ update package.json
     "build": "./build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "https://github.com/azizzaeny/clojure.core.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/azizzaeny/clojure.core.git"
+  },
   "author": "azizzaeny",
-  "license": "GPL"
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/azizzaeny/clojure.core/issues"
+  },
+  "homepage": "https://github.com/azizzaeny/clojure.core#readme"
 }
+
 ```
 
 extract package.json
