@@ -84,22 +84,25 @@ assoc(obj, 'b', 20); //, {a:1, b:20}
 `(dissoc map)(dissoc map key)(dissoc map key & ks)`
 
 ```js path=dist/core.js
-function dissoc(...args){
-  let [obj, key] = args;
-  if(args.length === 1){
-    return (keyA) => dissoc(obj, keyA);
+
+function dissoc(...args) {
+  let [obj, ...keys] = args;
+  if (args.length === 1) {
+    return (...keysA) => dissoc(obj, ...keysA);
   }
-  let { [key]: omitted, ...rest } = obj;
-  return rest;
+  let newObj = { ...obj };
+  keys.forEach(key => delete newObj[key]);
+  return newObj;
 }
+
 ```
 
 usage:
 
 ```js path=dist/test.core.js
-var obj = {a:1, b:2};
+var obj = {a:1, b:2, c: 3};
 dissoc(obj, 'a'); //, {b:2}
-
+dissoc(obj, 'a', 'c')
 ```
 
 #### update
@@ -108,16 +111,15 @@ dissoc(obj, 'a'); //, {b:2}
 ```js path=dist/core.js
 function update(...args){
   let [coll, key, updateFn] = args;
-  if (args.length === 2) {
-    return (updateFn) => update(coll, key, updateFn);
-  }
+  if (args.length === 1) return (key, updateFn) => update(coll, key, updateFn);
+  if (args.length === 2) return (updateFn) => update(coll, key, updateFn); 
   if(Array.isArray(coll)){
     let newColl = [...coll];
     return (newColl[key] = updateFn(coll[key]), newColl);
   }
   return { // todo: fix assume type object
-    ...object,
-    [key]: updateFn(object[key])
+    ...coll,
+    [key]: updateFn(coll[key])
   };
 }
 ```
@@ -126,12 +128,14 @@ usage:
 
 ```js path=dist/test.core.js
 var obj = {a: 1, b: 2};
-var res = update(obj, "b", (val) => val + 1); //{a: 1, b: 3}
+update(obj, "b", (val) => val + 1); //{a: 1, b: 3}
+
 ```
 
 #### assocIn
 `(assoc-in m [k & ks] v)`
 ```js path=dist/core.js
+
 function assocIn(...args){
   let [obj, keys, val] = args;
   if (args.length === 3) {
@@ -139,44 +143,51 @@ function assocIn(...args){
     return assoc(obj, keys[0], keys.length === 1 ? val : assocIn(obj[keys[0]], keys.slice(1), val));
   } else if (args.length === 2) {
     return (val) => assocIn(obj, keys, val);
+  }else if(args.length === 1){
+    return (keys, val) => assocIn(obj, keys, val);
   }
 }
+
 ```
 usage:
 
 ```js path=dist/test.core.js
 var obj = {a: 1, b:{c: 10}};
-var res = assocIn(obj, ['b', 'c'], 20); //{a:1, b:{c: 20}}
+assocIn(obj, ['b', 'c'], 20); //{a:1, b:{c: 20}}
 ```
 
 #### updateIn
 `(update-in m ks f & args)`
 
 ```js path=dist/core.js
+
 function updateIn(...args){
   let [object, keys, updateFn] = args;
-  if (args.length === 2) {
-    return (updateFn) => updateIn(object, keys, updateFn);
-  }
+  if (args.length === 1) return (keys, updateFn) => updateIn(object, keys, updateFn)
+  if (args.length === 2) return (updateFn) => updateIn(object, keys, updateFn);    
   const [key, ...rest] = keys;
   if (rest.length === 0) {
     return update(object, key, updateFn);
   }
   return update(object, key, (value) => updateIn(value, rest, updateFn));
 }
+
 ```
 usage:
 
 ```js path=dist/test.core.js
 var obj = {name:{ full_name: "aziz zaeny"}};
 var res = updateIn(obj, ["name", "full_name"], upperCase);
-var fullName  = getIn(res, ["name", "full_name"]); // "AZIZ ZAENY"
+getIn(res, ["name", "full_name"]); // "AZIZ ZAENY"
+
 ```
 
 #### merge
 `(merge & maps)`
 ```js path=dist/core.js
 function merge(...args){
+  let [obj1, obj2] = args;
+  if(args.length === 1) return (obj1) => merge(obj1, obj2);
   return Object.assign({}, ...args);
 }
 ```
@@ -187,7 +198,7 @@ usage:
 var obj1 = {a:1}
 var obj2 = {a:11, b:2};
 var obj3 = {c:32}
-var res = merge(obj1, obj2, obj3); //  {a:11, b:2, c:32}
+merge(obj1, obj2, obj3); //  {a:11, b:2, c:32}
 ```
 
 #### mergeWith
@@ -196,6 +207,7 @@ var res = merge(obj1, obj2, obj3); //  {a:11, b:2, c:32}
 ```js path=dist/core.js
 function mergeWith(...args){
   let [fn, ...maps] = args;
+  if( args.length === 1) return (...maps) => mergeWith(fn, ...maps);
   if (maps.length === 0) {
     return {};
   } else if (maps.length === 1) {
@@ -225,7 +237,9 @@ usage:
 ```js path=dist/test.core.js
 var obj1 = {a:1, b: 0};
 var obj2 = {a:2, b: 2};
-var res = mergeWith(inc, obj1, obj2); //  {a:3, b:3}
+var inc = (x) => x + 1;
+mergeWith(inc, obj1, obj2); //  {a:3, b:3}
+
 ```
 
 #### selectKeys
