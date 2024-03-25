@@ -7,6 +7,7 @@ clojure functional libarary in javascript
 #### get 
 `(get map key)(get map key not-found)` 
 
+
 ```js path=dist/core.js
 function get(...args){
   let [obj, key] = args;
@@ -17,6 +18,7 @@ function get(...args){
   }
 }
 ```
+
 usage :
 
 ```js path=dist/test.core.js
@@ -192,7 +194,7 @@ var res = merge(obj1, obj2, obj3); //  {a:11, b:2, c:32}
 `(merge-with f & maps)`
 
 ```js path=dist/core.js
-function mergeWith(...args) =>{
+function mergeWith(...args){
   let [fn, ...maps] = args;
   if (maps.length === 0) {
     return {};
@@ -1660,8 +1662,12 @@ thread(
 function threadLast(val, ...forms){
   return forms.reduce((acc, form) => {
     let [fn, ...rest] = form;
-    if(rest && rest.length > 0) return fn(...rest);    
-    return fn(acc);
+    if(rest && rest.length > 0){
+      let fns = partialRight(fn, ...rest);
+      return fns(acc);      
+    }else{
+      return fn(acc);      
+    }
   }, val);
 }
 
@@ -2396,7 +2402,7 @@ mod(1, 3)
 
 #### rem
 ```js path=dist/core.js
-function rem(a, b) {
+function rem(...args) {
   let [a, b] = args;
   if (args.length === 1) return (b) => ((a % b) + b) % b;
   return ((a % b) + b) % b;
