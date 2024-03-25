@@ -98,37 +98,6 @@ To update the code first you need to extract it from `core.md`
 ./build core.md
 ```
 
-update package.json
-
-```json path=package.json
-{
-  "name": "@zaeny/clojure.core",
-  "version": "1.1.0",
-  "description": "Clojure core functions in javascript land,  an attempt to port clojure core library function so it available in javascript ",
-  "main": "dist/core.js",
-  "scripts": {
-    "build": "./build",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/azizzaeny/clojure.core.git"
-  },
-  "author": "azizzaeny",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/azizzaeny/clojure.core/issues"
-  },
-  "homepage": "https://github.com/azizzaeny/clojure.core#readme"
-}
-
-```
-
-extract package.json
-```sh
-./build readme.md
-```
-
 publishing npm
 
 ```sh
@@ -141,3 +110,4 @@ npm publish
  - [1.0.1] add atom functions `reset, swap, compareAndSet, addWatch, removeWatch, setValidator`
  - [1.0.2] fix Readme.md
  - [1.1.0] add `threadLast, threadFirst`, fix function arity `atom` `string` and `math`
+ - [1.1.2] fix arguments of function check of all object `assoc`, `update`, `updateIn` etc
