@@ -31,5 +31,8 @@
   "bugs": {
     "url": "https://github.com/azizzaeny/clojure.core/issues"
   },
-  "homepage": "https://github.com/azizzaeny/clojure.core#readme"
+  "homepage": "https://github.com/azizzaeny/clojure.core#readme",
+  "devDependencies": {
+    "@zaeny/literate": "^1.0.1"
+  }
 }
