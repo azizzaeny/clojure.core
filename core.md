@@ -1629,6 +1629,7 @@ var partialRight = (fn, ...leftArgs) => {
   };
 };
 
+var partialR = partialRight;
 ```
 usage: 
 ```js path=dist/test.core.js
@@ -1640,11 +1641,14 @@ newFn('z')
 
 #### partialLeft
 ```js path=dist/core.js
+
 var partialLeft = (fn, ...rightArgs) => {
   return (...leftArgs) => {
     return fn(...leftArgs, ...rightArgs);
   };
 };
+
+var partialL = partialLeft;
 
 ```
 usage: 
@@ -1710,6 +1714,7 @@ function threadLast(val, ...forms){
   }, val);
 }
 
+var threadL = threadLast;
 ```
 
 usage:
@@ -1743,6 +1748,9 @@ function threadFirst(val, ...forms){
     }
   }, val);
 }
+
+var threadF = threadFirst;
+
 ```
 
 usage:
@@ -3146,10 +3154,10 @@ module.exports = {
   count, conj, cons, first, ffirst, nth, seq, peek, rest, pop, disj, takeNth, take, second, last, next, fnext, takeLast, takeWhile, distinct, 
   nthrest, drop, dropLast, splitAt, shuffle, randNth, vec, subvec, repeat, range, keep, keepIndexed, sort, sortBy, compare, nfirst, nnext,
   map, filter, reduce, find,every, remove, concat, mapcat, mapIndexed, flatten, interleave, interpose, reverse, groupBy, partition, partitionAll, partitionBy,
-  frequencies, union, difference, intersection,
-  into,
+  frequencies, union, difference, intersection, into,
   // functions
-  apply, comp, constantly, identity, fnil, memoize, everyPred, complement, partial, juxt, someFn, partialRight, partialLeft, thread, condThread, threadFirst, threadLast, doseq,
+  apply, comp, constantly, identity, fnil, memoize, everyPred, complement, partial, juxt, someFn,
+  partialRight, partialLeft, thread, condThread, threadFirst, threadLast, doseq, partialL, partialR, threadF, threadL,
   // checks
   isNotEmpty, isEmpty, isContains, isIncludes, isIncludes, isZero, isPos, isNeg, isEven, isOdd, isInt, isTrue, isFalse, isInstanceOf, isSome, isFn, isDeepEqual, isNil,
   isBlank, isArray, isObject, isNumber, isString, isIdentical, isEqual, isNotEqual, isGt, isGte, isLt, isLte, isDistinct, isEveryEven, isNotEveryEven, isNotAnyEven, isColl,
