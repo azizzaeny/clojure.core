@@ -113,3 +113,4 @@ npm publish
  - [1.1.3] fix arguments of function check of all object `assoc`, `update`, `updateIn` etc
  - [1.1.4] add `into`
  - [1.1.5] fix atom function return  `reset, swap`
+ - [1.1.6] add `doseq` functions side effects

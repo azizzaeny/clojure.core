@@ -1779,6 +1779,21 @@ condThread(
 );
 ```
 
+#### doseq 
+do sequence 
+```js path=dist/core.js
+function doseq(coll, fn) {
+  for (const item of coll) {
+    fn(item);
+  }
+}
+```
+
+usage: 
+```js path=dist/test.core.js
+doseq([1,2,3,4], (item) => console.log(item));
+```
+
 #### condThreadLast (todo)
 
 #### someThreadLast (todo)
@@ -3134,7 +3149,7 @@ module.exports = {
   frequencies, union, difference, intersection,
   into,
   // functions
-  apply, comp, constantly, identity, fnil, memoize, everyPred, complement, partial, juxt, someFn, partialRight, partialLeft, thread, condThread, threadFirst, threadLast, 
+  apply, comp, constantly, identity, fnil, memoize, everyPred, complement, partial, juxt, someFn, partialRight, partialLeft, thread, condThread, threadFirst, threadLast, doseq,
   // checks
   isNotEmpty, isEmpty, isContains, isIncludes, isIncludes, isZero, isPos, isNeg, isEven, isOdd, isInt, isTrue, isFalse, isInstanceOf, isSome, isFn, isDeepEqual, isNil,
   isBlank, isArray, isObject, isNumber, isString, isIdentical, isEqual, isNotEqual, isGt, isGte, isLt, isLte, isDistinct, isEveryEven, isNotEveryEven, isNotAnyEven, isColl,
