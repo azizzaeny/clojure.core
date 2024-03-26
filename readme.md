@@ -114,3 +114,4 @@ npm publish
  - [1.1.4] add `into`
  - [1.1.5] fix atom function return  `reset, swap`
  - [1.1.6] add `doseq` functions side effects
+ - [1.1.7] fix `assocIn` bugs only accept two nested keys `["key1", "key2"]`

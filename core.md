@@ -135,19 +135,19 @@ update(obj, "b", (val) => val + 1); //{a: 1, b: 3}
 #### assocIn
 `(assoc-in m [k & ks] v)`
 ```js path=dist/core.js
-
-function assocIn(...args){
+function assocIn(...args) {
   let [obj, keys, val] = args;
   if (args.length === 3) {
     keys = Array.isArray(keys) ? keys : [keys];
-    return assoc(obj, keys[0], keys.length === 1 ? val : assocIn(obj[keys[0]], keys.slice(1), val));
+    const [firstKey, ...restKeys] = keys;
+    const nestedValue = restKeys.length === 0 ? val : assocIn(obj[firstKey] || {}, restKeys, val);
+    return assoc(obj, firstKey, nestedValue);
   } else if (args.length === 2) {
     return (val) => assocIn(obj, keys, val);
-  }else if(args.length === 1){
+  } else if (args.length === 1) {
     return (keys, val) => assocIn(obj, keys, val);
   }
 }
-
 ```
 usage:
 
