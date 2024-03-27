@@ -1988,7 +1988,23 @@ usage:
 ```js path=dist/test.core.js
 isInt(10)
 ```
+### isBoolean
 
+```js path=dist/core.js
+function isBoolean(value) {
+  return typeof value === 'boolean';
+}
+```
+
+usage:
+
+```js
+(isBoolean(true));   // true
+(isBoolean(false));  // true
+(isBoolean(0));      // false
+(isBoolean('true')); // false
+(isBoolean(null));   // false
+```
 
 #### isTrue
 ```js path=dist/core.js
@@ -3175,7 +3191,7 @@ module.exports = {
   partialRight, partialLeft, thread, condThread, threadFirst, threadLast, doseq, partialL, partialR, threadF, threadL,
   // checks
   isNotEmpty, isEmpty, isContains, isIncludes, isIncludes, isZero, isPos, isNeg, isEven, isOdd, isInt, isTrue, isFalse, isInstanceOf, isSome, isFn, isDeepEqual, isNil,
-  isBlank, isArray, isObject, isNumber, isString, isIdentical, isEqual, isNotEqual, isGt, isGte, isLt, isLte, isDistinct, isEveryEven, isNotEveryEven, isNotAnyEven, isColl,
+  isBoolean, isBlank, isArray, isObject, isNumber, isString, isIdentical, isEqual, isNotEqual, isGt, isGte, isLt, isLte, isDistinct, isEveryEven, isNotEveryEven, isNotAnyEven, isColl,
   // maths
   rand, randInt, add, subtract, multiply, divide, quot, mod, rem, incr, decr, max, min, toInt, toIntSafe,
   // strings

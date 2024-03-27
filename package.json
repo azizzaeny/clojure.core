@@ -1,7 +1,7 @@
 {
   "name": "@zaeny/clojure.core",
-  "version": "1.2.0",
-  "description": "Clojure core functions in javascript land,  an attempt to port clojure core library function so it available in javascript ",
+  "version": "1.2.1",
+  "description": "Clojure core functions in javascript land, an attempt to port clojure core library function so it available in javascript ",
   "keywords": [
     "functional",
     "fn",
