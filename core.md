@@ -694,6 +694,21 @@ dropLast([1,2,3,4]) [1,2,3]
 
 #### dropWhile (TODO)
 
+#### split
+`(split s re)(split s re limit)`
+
+```js path=dist/core.js
+var split = (...args) => {
+  let [coll, re] = args;
+  if(args.length === 1) return (re) => split(coll, re);
+  return coll.split(re);
+}
+```
+
+```js path=dist/test.core.js
+split('asdf asdf', ' ');
+```
+
 #### splitAt
 `(split-with pred coll)`
 ```js path=dist/core.js
@@ -3164,7 +3179,7 @@ module.exports = {
   // maths
   rand, randInt, add, subtract, multiply, divide, quot, mod, rem, incr, decr, max, min, toInt, toIntSafe,
   // strings
-  subs, splitLines, replace, replaceFirst, join, escape, rePattern, reMatches, capitalize, lowerCase, upperCase, trim, trimNewLine, trimL, trimR, char,
+  split, subs, splitLines, replace, replaceFirst, join, escape, rePattern, reMatches, capitalize, lowerCase, upperCase, trim, trimNewLine, trimL, trimR, char,
   // state
   atom, deref, reset, swap, addWatch, removeWatch, setValidator, compareAndSet, removeValidator,
   // mutli method  

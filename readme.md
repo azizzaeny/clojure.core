@@ -116,3 +116,4 @@ npm publish
  - [1.1.6] add `doseq` functions side effects
  - [1.1.7] fix `assocIn` bugs only accept two nested keys `["key1", "key2"]`
  - [1.1.8] add aliases for `partialL`, `partailR`, `threadF`, `threadL`
+ - [1.2.0] add `split` functions
