@@ -1034,12 +1034,13 @@ reduce((acc,v) => acc + v, 0, [1,23,4,5,6,77])
 #### concat
 `(concat)(concat x)(concat x y)(concat x y & zs)`
 ```js path=dist/core.js
+
 var concat=(...args)=>{
-  let [arr1, arr2] = args;
+  let [arr1, ...rest] = args;
   if (args.length === 1) {
-    return (arr2Holder) => concat(arr1, arr2Holder)
+    return (...rest) => concat(arr1, ...rest);
   }
-  return arr1.concat(arr2)
+  return arr1.concat(...rest)
 }
 
 ```
