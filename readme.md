@@ -118,3 +118,4 @@ npm publish
  - [1.1.8] add aliases for `partialL`, `partailR`, `threadF`, `threadL`
  - [1.2.0] add `split` functions
  - [1.2.1] add `isBoolean` functions
+ - [1.2.2] fix `concat` not accepting more arguements
