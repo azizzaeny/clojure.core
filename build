@@ -2,6 +2,7 @@
 
 var {tangle} = require('@zaeny/literate/tangle');
 var argv = process.argv[2] || './core.md';
+
 console.log(
   tangle(require('fs').readFileSync(argv, 'utf8'))
 );
