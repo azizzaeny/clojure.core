@@ -27,7 +27,13 @@ var {get, getIn} = require("@zaeny/clojure.core");
 ```js
 import {peek, assoc} from "@zaeny/clojure.core";
 ```
+
 **CDN Import to Browser**
+
+note please use your favorite cdn
+- unpkg -`https://www.unpkg.com/@zaeny/clojure.core@1.2.2/dist/core.js`
+- jsdelivr - `https://cdn.jsdelivr.net/npm/@zaeny/clojure.core`
+
 ```js
 <script src="https://cdn.jsdelivr.net/npm/@zaeny/clojure.core"></script>
 ```   
